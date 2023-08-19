@@ -1,9 +1,10 @@
+import { SearchPanel } from '@/containers'
+import { Container } from '@mui/material'
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="flex w-full max-w-[1400px] flex-col">
-        Page
-      </div>
-    </main>
+    <Container maxWidth="sm" sx={{ p: 5 }}>
+      <SearchPanel />
+    </Container>
   )
 }

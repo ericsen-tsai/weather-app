@@ -5,6 +5,9 @@ const nextConfig = {
       transform: '@mui/icons-material/{{member}}',
     },
   },
+  images: {
+    domains: ['cdn.weatherapi.com'],
+  },
 }
 
 module.exports = nextConfig
