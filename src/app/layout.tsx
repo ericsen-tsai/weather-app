@@ -1,8 +1,13 @@
-import '@/styles/globals.css'
-import { Inter } from 'next/font/google'
+// eslint-disable-next-line camelcase
+import { Roboto_Mono } from 'next/font/google'
 import { ThemeRegistry } from '@/components'
+import ResponsiveAppBar from '@/components/ResponsiveAppBar'
 
-const inter = Inter({ subsets: ['latin'] })
+const roboto = Roboto_Mono({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export default function RootLayout({
   children,
@@ -10,9 +15,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-white `}>
-        <ThemeRegistry>{children}</ThemeRegistry>
+    <html lang="en" className={roboto.className}>
+      <body>
+        <ThemeRegistry>
+          <ResponsiveAppBar />
+          {children}
+        </ThemeRegistry>
       </body>
     </html>
   )

@@ -1,22 +1,47 @@
 'use client'
 
-/* eslint-disable import/extensions */
-
 import * as React from 'react'
-import { ThemeProvider } from '@mui/material/styles'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
+import { cyan, teal } from '@mui/material/colors'
 import NextAppDirEmotionCacheProvider from './EmotionCache'
-import theme from './theme'
+
+import { ThemeToggleContext } from '../ThemeToggle/ThemeToggleContext'
 
 export default function ThemeRegistry({ children }: { children: React.ReactNode }) {
+  const [mode, setMode] = React.useState<'light' | 'dark'>('light')
+
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
+      },
+    }),
+    [],
+  )
+
+  const theme = React.useMemo(
+    () => createTheme({
+      palette: {
+        mode,
+        primary: teal,
+        secondary: cyan,
+      },
+      typography: {
+        fontFamily: 'inherit',
+      },
+    }),
+    [mode],
+  )
+
   return (
-    // eslint-disable-next-line react/jsx-filename-extension
     <NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
+      <ThemeToggleContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      </ThemeToggleContext.Provider>
     </NextAppDirEmotionCacheProvider>
   )
 }

@@ -1,2 +1,5 @@
-// eslint-disable-next-line import/prefer-default-export
 export { default as ThemeRegistry } from './ThemeRegistry/ThemeRegistry'
+export { default as MapSearch } from './MapSearch'
+export { default as ThemeToggle } from './ThemeToggle'
+export { default as WeatherInfoBoard } from './WeatherInfoBoard'
+export { default as LineChart } from './LineChart'
