@@ -46,7 +46,7 @@ function WeatherInfoBoard({
         }}
         alignItems="center"
       >
-        <Box sx={{ position: 'relative', height: '7rem', width: '7rem' }}>
+        <Box sx={{ position: 'relative', height: '5rem', width: '5rem' }}>
           <Image
             src={`https:${current.conditionIcon}`}
             alt={current.condition}
@@ -59,7 +59,7 @@ function WeatherInfoBoard({
             fontWeight: 'bold',
             fontSize: '3rem',
             mt: {
-              xs: '-2rem',
+              xs: '-1.5rem',
               sm: 0,
             },
           }}

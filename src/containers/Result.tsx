@@ -3,7 +3,7 @@
 import { WeatherInfoBoard, LineChart } from '@/components'
 import { type TemperatureUnit } from '@/types'
 import { type parseWeatherData } from '@/utils'
-import { Box, Stack } from '@mui/material'
+import { Box, Stack, Tooltip } from '@mui/material'
 import { useState } from 'react'
 import Image from 'next/image'
 
@@ -104,14 +104,19 @@ function Result({ cityData }: Props) {
           ml="auto"
         >
           {condition.map(({ type, icon, date }) => (
-            <Box
+            <Tooltip
+              title={type}
+              arrow
               key={date}
-              sx={{
-                height: '1.6rem', width: '1.6rem', position: 'relative',
-              }}
             >
-              <Image src={`https:${icon}`} alt={type} fill />
-            </Box>
+              <Box
+                sx={{
+                  height: '1.6rem', width: '1.6rem', position: 'relative',
+                }}
+              >
+                <Image src={`https:${icon}`} alt={type} fill />
+              </Box>
+            </Tooltip>
           ))}
         </Stack>
       </Box>
