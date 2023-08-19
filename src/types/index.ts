@@ -135,3 +135,5 @@ export type WeatherAPIFailResponse = {
     message: string
   }
 }
+
+export type TemperatureUnit = '°C' | '°F'

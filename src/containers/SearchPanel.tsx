@@ -5,13 +5,14 @@ import {
   Button, CircularProgress, Stack, Typography,
 } from '@mui/material'
 
-import { MapSearch, WeatherInfoBoard } from '@/components'
+import { MapSearch } from '@/components'
 import { type PlaceType } from '@/components/MapSearch'
 import {
   type WeatherAPIFailResponse,
   type WeatherAPISuccessResponse,
 } from '@/types'
 import { parseWeatherData } from '@/utils'
+import Result from './Result'
 
 const getWeatherByCityName = async (city: string) => {
   const qs = new URLSearchParams({
@@ -31,13 +32,12 @@ function SearchPanel() {
   > | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [searched, setSearched] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleLocationChange = (l: PlaceType | null) => {
     setLocation(l)
     setSearched(false)
   }
-
-  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleSearch = async () => {
     if (!location) return
@@ -62,7 +62,7 @@ function SearchPanel() {
 
   return (
     <Stack>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack direction="row" justifyContent="space-between" gap="0.5rem">
         <MapSearch
           location={location}
           handleLocationChange={handleLocationChange}
@@ -78,19 +78,22 @@ function SearchPanel() {
           Search!
         </Button>
       </Stack>
-      <Typography variant="body1" color="error">
-        {errorMessage}
-      </Typography>
+      {!loading && (
+        <Typography variant="body1" color="error">
+          {errorMessage}
+        </Typography>
+      )}
       {!loading && !errorMessage && cityData && (
-        <WeatherInfoBoard
-          location={cityData.location}
-          current={cityData.current}
-        />
+        <Result cityData={cityData} />
       )}
       {loading && (
-      <Stack alignItems="center" justifyContent="center" sx={{ height: '30rem', width: '100%' }}>
-        <CircularProgress />
-      </Stack>
+        <Stack
+          alignItems="center"
+          justifyContent="center"
+          sx={{ height: '30rem', width: '100%' }}
+        >
+          <CircularProgress />
+        </Stack>
       )}
     </Stack>
   )
