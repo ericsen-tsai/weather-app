@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Button, Stack, Typography } from '@mui/material'
+import {
+  Button, CircularProgress, Stack, Typography,
+} from '@mui/material'
 
 import { MapSearch, WeatherInfoBoard } from '@/components'
 import { type PlaceType } from '@/components/MapSearch'
@@ -28,8 +30,11 @@ function SearchPanel() {
     typeof parseWeatherData
   > | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const [searched, setSearched] = useState<boolean>(false)
+
   const handleLocationChange = (l: PlaceType | null) => {
     setLocation(l)
+    setSearched(false)
   }
 
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -48,6 +53,7 @@ function SearchPanel() {
           setErrorMessage(data.error.message)
         } else {
           setCityData(parseWeatherData(data))
+          setSearched(true)
         }
       })
       .catch((error: Error) => setErrorMessage(error.message))
@@ -67,7 +73,7 @@ function SearchPanel() {
           onClick={() => {
             void handleSearch()
           }}
-          disabled={!location}
+          disabled={!location || searched}
         >
           Search!
         </Button>
@@ -80,6 +86,11 @@ function SearchPanel() {
           location={cityData.location}
           current={cityData.current}
         />
+      )}
+      {loading && (
+      <Stack alignItems="center" justifyContent="center" sx={{ height: '30rem', width: '100%' }}>
+        <CircularProgress />
+      </Stack>
       )}
     </Stack>
   )

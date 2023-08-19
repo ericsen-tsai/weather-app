@@ -10,6 +10,11 @@ export async function GET(request: NextRequest) {
 
   const q = url.searchParams.get('q') as string
   if (process.env.NEXT_PUBLIC_MODE === 'dev') {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(null)
+      }, 500)
+    })
     return NextResponse.json(fakeLocationData)
   }
 

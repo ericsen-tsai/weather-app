@@ -26,7 +26,7 @@ function WeatherInfoBoard({ location, current }: Props) {
   >('temperatureCelsius')
 
   return (
-    <Stack direction="row" alignItems="center">
+    <Stack direction="row" alignItems="center" sx={{ my: 10 }}>
       <Box sx={{ position: 'relative', height: '7rem', width: '7rem' }}>
         <Image
           src={`https:${current.conditionIcon}`}
