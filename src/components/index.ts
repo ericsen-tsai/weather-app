@@ -1,5 +1,7 @@
-export { default as ThemeRegistry } from './ThemeRegistry/ThemeRegistry'
+export { default as ThemeRegistry } from './ThemeRegistry'
 export { default as MapSearch } from './MapSearch'
 export { default as ThemeToggle } from './ThemeToggle'
 export { default as WeatherInfoBoard } from './WeatherInfoBoard'
 export { default as LineChart } from './LineChart'
+export { default as ResponsiveAppBar } from './ResponsiveAppBar'
+export { default as NextAuthProvider } from './NextAuthProvider'
