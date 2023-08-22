@@ -1,3 +1,5 @@
+import { type Timestamp } from 'firebase/firestore'
+
 type WeatherCondition = {
   text: string
   icon: string
@@ -137,3 +139,5 @@ export type WeatherAPIFailResponse = {
 }
 
 export type TemperatureUnit = '°C' | '°F'
+
+export type History = { local_time: string, location: string, id: string, created_at: Timestamp }

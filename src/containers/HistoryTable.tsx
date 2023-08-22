@@ -16,6 +16,7 @@ import { signIn, useSession } from 'next-auth/react'
 
 import { tableCellClasses } from '@mui/material/TableCell'
 import { useRouter } from 'next/navigation'
+import { type History } from '@/types'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,8 +39,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }))
 
 type Props = {
-  history: { id: string, local_time: string, location: string }[]
+  history: (Omit<History, 'created_at'> & { created_at: string })[]
 }
+
 export default function HistoryTable({ history }: Props) {
   const router = useRouter()
   const session = useSession()
@@ -51,7 +53,7 @@ export default function HistoryTable({ history }: Props) {
           <Table sx={{ minWidth: 300 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Time</StyledTableCell>
+                <StyledTableCell>Search Time</StyledTableCell>
                 <StyledTableCell>Location</StyledTableCell>
                 <StyledTableCell>Action</StyledTableCell>
               </TableRow>
@@ -59,7 +61,7 @@ export default function HistoryTable({ history }: Props) {
             <TableBody>
               {history.map((row) => (
                 <StyledTableRow key={row.id}>
-                  <StyledTableCell>{row.local_time}</StyledTableCell>
+                  <StyledTableCell>{row.created_at}</StyledTableCell>
                   <StyledTableCell>{row.location}</StyledTableCell>
                   <StyledTableCell>
                     <Button

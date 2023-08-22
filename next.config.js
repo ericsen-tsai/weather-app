@@ -8,6 +8,9 @@ const nextConfig = {
   images: {
     domains: ['cdn.weatherapi.com'],
   },
+  experimental: {
+    serverActions: true,
+  },
 }
 
 module.exports = nextConfig

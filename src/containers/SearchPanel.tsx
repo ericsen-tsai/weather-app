@@ -12,6 +12,8 @@ import {
 } from '@/types'
 import { parseWeatherData } from '@/utils'
 import { useSearchParams } from 'next/navigation'
+import { addHistory } from '@/app/actions'
+import { Timestamp } from 'firebase/firestore'
 import Result from './Result'
 
 const getWeatherByCityName = async (city: string) => {
@@ -56,6 +58,11 @@ function SearchPanel() {
         } else {
           setCityData(parseWeatherData(data))
           setSearched(true)
+          void addHistory({
+            local_time: data.location.localtime,
+            location: `${location.structured_formatting.main_text} ${location.structured_formatting.secondary_text}`,
+            created_at: Timestamp.now(),
+          })
         }
       })
       .catch((error: Error) => setErrorMessage(error.message))
