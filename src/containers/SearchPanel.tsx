@@ -1,10 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Button, CircularProgress, Stack, Typography,
 } from '@mui/material'
-
 import { MapSearch } from '@/components'
 import { type PlaceType } from '@/components/MapSearch'
 import {
@@ -12,6 +11,9 @@ import {
   type WeatherAPISuccessResponse,
 } from '@/types'
 import { parseWeatherData } from '@/utils'
+import { useSearchParams } from 'next/navigation'
+import { addHistory } from '@/app/actions'
+import { Timestamp } from 'firebase/firestore'
 import Result from './Result'
 
 const getWeatherByCityName = async (city: string) => {
@@ -33,6 +35,8 @@ function SearchPanel() {
   const [loading, setLoading] = useState<boolean>(false)
   const [searched, setSearched] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const searchParams = useSearchParams()
+  const q = searchParams.get('q')
 
   const handleLocationChange = (l: PlaceType | null) => {
     setLocation(l)
@@ -47,18 +51,42 @@ function SearchPanel() {
       return
     }
     setLoading(true)
-    await getWeatherByCityName(location.structured_formatting.main_text)
+    await getWeatherByCityName(`${location.structured_formatting.main_text} ${location.structured_formatting.secondary_text}`)
       .then((data) => {
         if ('error' in data) {
           setErrorMessage(data.error.message)
         } else {
           setCityData(parseWeatherData(data))
           setSearched(true)
+          void addHistory({
+            local_time: data.location.localtime,
+            location: `${location.structured_formatting.main_text} ${location.structured_formatting.secondary_text}`,
+            created_at: Timestamp.now(),
+          })
         }
       })
       .catch((error: Error) => setErrorMessage(error.message))
     setLoading(false)
   }
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      if (!q) return
+      setLoading(true)
+      await getWeatherByCityName(q)
+        .then((data) => {
+          if ('error' in data) {
+            setErrorMessage(data.error.message)
+          } else {
+            setCityData(parseWeatherData(data))
+            setSearched(true)
+          }
+        })
+        .catch((error: Error) => setErrorMessage(error.message))
+      setLoading(false)
+    }
+    void fetchWeather()
+  }, [q])
 
   return (
     <Stack>
