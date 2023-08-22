@@ -4,7 +4,6 @@ import { HistoryTable } from '@/containers'
 import { type History } from '@/types'
 
 const formatDate = (date: Date) => {
-  console.log(date.toISOString())
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0') // Months are 0-indexed in JS
   const day = String(date.getDate()).padStart(2, '0')
@@ -24,7 +23,6 @@ export default async function page() {
     history.push({ ...doc.data(), id: doc.id } as History)
   })
 
-  console.log(history)
   return (
     <Container maxWidth="sm" sx={{ p: 5 }}>
       <HistoryTable
